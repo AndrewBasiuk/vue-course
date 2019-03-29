@@ -9,38 +9,59 @@
     <script src="js/vue.js"></script>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="sample">
-            <input type="text" v-model="firstName">
-            <hr>
-            <input type="text" v-model="lastName">
-            <hr>
-            <h2>Hello, {{ fullName }}</h2>
-            <hr>
-            <button class="btn btn-success" 
-                    @click="showText = !showText"
-                    >
-                ToggleText
-            </button>
-            <hr>
-            <div v-show="showText">Some text</div>
+    <div class="wrapper" style="max-width: 100%;padding-top: 150px;">
+
+        <div class="form-group" style="max-width: 600px; margin: 0 auto;">
+            <form class="form" action="">
+                <input class="input form-control" type="text" v-model="firstName" placeholder="first name">
+                <input class="input form-control" type="text" v-model="lastName" placeholder="last name">
+                <input class="input form-control" type="text" v-model="email" placeholder="email">
+                <input class="input form-control" type="text" v-model="phone" placeholder="phone">
+
+                <button class="btn" @click="addGuest">Add Guest</button>
+                
+                <input class="input form-control" style="margin-top: 20px;" type="text"
+                       v-model="firstName"
+                       v-if="showGuest" 
+                       v-for="(guest, i) in guests"
+                       :placeholder="'Guest ' + (i+1)"       
+                >
+
+            </form>
+
+            <!-- <p>
+                <span>{{firstName}}</span> <br>
+                <span>{{lastName}}</span> <br>
+                <span>{{email}}</span>
+            </p> -->
         </div>
     </div>
+
     <script>
         let sample = new Vue({
-            el: '.sample',
+            el: '.wrapper',
             data: {
+                email: '',
                 firstName: '',
                 lastName: '',
-                showText: false
+                phone: '',
+                showGuest: false,
+                guests: []
             },
-            computed: {
-                fullName(){
-                    console.log('render fullname');
-                    return this.firstName + ' ' + this.lastName;
+            methods: {
+                addGuest(e) {
+                    e.preventDefault();
+                    this.showGuest = !this.showGuest;
+
+                    this.guests.add
                 }
             }
         });
     </script>
+    <style>
+        .input {
+            margin-bottom: 15px;
+        }
+    </style>
 </body>
 </html>
