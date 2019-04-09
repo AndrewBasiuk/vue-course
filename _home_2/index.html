@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper" style="max-width: 100%;padding-top: 150px;">
+
+        <div class="form-group" style="max-width: 600px; margin: 0 auto;">
+            <form class="form" action="">
+                <input class="input form-control" type="text" v-model="firstName" placeholder="first name">
+                <input class="input form-control" type="text" v-model="lastName" placeholder="last name">
+                <input class="input form-control" type="text" v-model="email" placeholder="email">
+                <input class="input form-control" type="text" v-model="phone" placeholder="phone">
+
+                <button class="btn" @click="addGuest">Add Guest</button>
+                
+                <input class="input form-control" style="margin-top: 20px;" type="text"
+                       v-if="showGuest" 
+                       v-for="(guest, i) in guests"
+                       v-model="guests[i]"
+                       :placeholder="'Guest ' + (i+1)"       
+                >
+
+                <button class="btn" @click="submit"  v-if="showGuest" >Submit</button>
+            </form>
+        </div>
+
+        <table class="table table-bordered" style="max-width: 600px; margin: 0 auto;"
+               v-if="showTable"
+        >
+            <tbody>
+                <tr>
+                    <td>Email</td>
+                    <td>{{email}}</td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>{{fullName}}</td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td>{{phone}}</td>
+                </tr>
+                <tr>
+                    <td>Guests</td>
+                    <td>
+                        <p v-for="(guest, i) in guests" style="margin-bottom: 10px; padding: 0 10px">
+                            {{i+1 + '. '}} {{guests[i]}}
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let sample = new Vue({
+            el: '.wrapper',
+            data: {
+                email: '',
+                firstName: '',
+                lastName: '',
+                phone: '',
+                showGuest: false,
+                showTable: false,
+                guests: []
+            },
+            methods: {
+                addGuest(e) {
+                    e.preventDefault();
+                    this.showGuest = true;
+                    
+                    let name = "";
+                    this.guests.push(name);
+                },
+                submit(e) {
+                    e.preventDefault();
+                    document.querySelector(".form-group").style.display = "none";
+                    this.showTable = true;
+                }
+            },
+            computed: {
+                fullName() {
+                    return this.firstName + " " + this.lastName;
+                }
+            }
+        });
+    </script>
+    <style>
+        .input {
+            margin-bottom: 15px;
+        }
+    </style>
+</body>
+</html>
