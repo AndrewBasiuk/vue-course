@@ -22,7 +22,7 @@
             <div class="form-group">
                 <form class="form" action="">
                     <div v-for="(item, i) in allData">
-                        <label for="first-name"><i class="fas" :class="iconsClass"></i></label>
+                        <label for="first-name">{{item.value}}<i class="fas" :class="iconsClass"></i></label>
                         <input id="first-name" class="input form-control" type="text" v-model="item.value" :placeholder="item.name">
                     </div>
             
