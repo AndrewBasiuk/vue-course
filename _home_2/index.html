@@ -22,8 +22,8 @@
             <div class="form-group">
                 <form class="form" action="">
                     <div v-for="(item, i) in allData">
-                        <label for="first-name">{{item.value}}<i class="fas" :class="iconsClass"></i></label>
-                        <input id="first-name" class="input form-control" type="text" v-model="item.value" :placeholder="item.name">
+                        <label for="first-name">{{item.value}}<i class="fas" :class="item.isActive ? 'fa-check-circle' : 'fa-exclamation-circle'"></i></label>
+                        <input id="first-name" class="input form-control" type="text" v-model="item.value" @keyup="keyValidation(i)" :placeholder="item.name">
                     </div>
             
                     <button class="btn" @click="addGuest">Add Guest</button>
@@ -71,25 +71,30 @@
                         id: "first-name",
                         name: 'First Name',
                         value: "",
-                        validPattern: /^[a-zA-Z ]{2,30}$/
+                        validPattern: /^[a-zA-Z ]{2,30}$/,
+                        isActive: false
                     },
                     {
                         id: "last-name",
                         name: 'Last Name',
                         value: "",
-                        validPattern: /^[a-zA-Z ]{2,30}$/
+                        validPattern: /^[a-zA-Z ]{2,30}$/,
+                        isActive: false
                     },
                     {
                         id: "email",
                         name: 'Email',
                         value: "",
-                        validPattern: /.+/
+                        validPattern: /.+/,
+                        isActive: false
                     },
                     {
                         id: "phone",
                         name: 'Phone',
                         value: "",
-                        validPattern: /^[0-9]{7,14}$/
+                        validPattern: /^[0-9]{7,14}$/,
+                        isActive: true
+
                     }
                 ],
                 showGuest: false,
@@ -113,6 +118,13 @@
                     e.preventDefault();
                     document.querySelector(".form-group").style.display = "none";
                     this.showTable = true;
+                },
+                keyValidation(num) {
+                    if (num < 2) {
+                        this.allData[num].isActive = true;
+                    } else {
+                        this.allData[num].isActive = false;
+                    }
                 }
             },
             computed: {
