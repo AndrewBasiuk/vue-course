@@ -14,15 +14,20 @@
 
         <div class="container" style="max-width: 600px; margin: 0 auto;">
 
-            <div class="progress">
+            <div class="progress" v-if="showForm">
                 <div class="progress-bar" role="progressbar" style="width: 45%;" aria-valuenow="25" aria-valuemin="0"
                     aria-valuemax="100">25%</div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" v-if="showForm">
                 <form class="form" action="">
                     <div v-for="(item, i) in allData">
-                        <label for="first-name">{{item.value}}<i class="fas" :class="item.isActive ? 'fa-check-circle' : 'fa-exclamation-circle'"></i></label>
+                        <label for="first-name">
+                            <i class="fas" 
+                                    :class="item.validIcon ? 'fa-check-circle' : 'fa-exclamation-circle'"
+                                    v-if="item.showIcon">
+                            </i>
+                        </label>                 
                         <input id="first-name" class="input form-control" type="text" v-model="item.value" @keyup="keyValidation(i)" :placeholder="item.name">
                     </div>
             
@@ -72,36 +77,40 @@
                         name: 'First Name',
                         value: "",
                         validPattern: /^[a-zA-Z ]{2,30}$/,
-                        isActive: false
+                        showIcon: false,
+                        validIcon: false
                     },
                     {
                         id: "last-name",
                         name: 'Last Name',
                         value: "",
                         validPattern: /^[a-zA-Z ]{2,30}$/,
-                        isActive: false
+                        showIcon: false,
+                        validIcon: false
                     },
                     {
                         id: "email",
                         name: 'Email',
                         value: "",
                         validPattern: /.+/,
-                        isActive: false
+                        showIcon: false,
+                        validIcon: false
                     },
                     {
                         id: "phone",
                         name: 'Phone',
                         value: "",
                         validPattern: /^[0-9]{7,14}$/,
-                        isActive: true
-
+                        showIcon: false,
+                        validIcon: false
                     }
                 ],
                 showGuest: false,
                 showTable: false,
+                showForm: true,
                 guests: [],
                 iconsClass: {
-                    'fa-check-circle': false,
+                    'fa-check-circle': true,
                     'fa-exclamation-circle': false
                 }
             },
@@ -116,15 +125,19 @@
                 },
                 submit(e) {
                     e.preventDefault();
-                    document.querySelector(".form-group").style.display = "none";
+                    this.showForm = false;
                     this.showTable = true;
                 },
                 keyValidation(num) {
-                    if (num < 2) {
-                        this.allData[num].isActive = true;
-                    } else {
-                        this.allData[num].isActive = false;
-                    }
+
+                    let itemObj = this.allData[num];
+
+                    itemObj.showIcon = true;
+
+                    if (num > 2) {
+                        itemObj.validIcon = true;
+                    } 
+                    // console.log(this.iconsClass);
                 }
             },
             computed: {
