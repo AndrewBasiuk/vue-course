@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper" style="max-width: 100%;padding-top: 150px;">
+
+        <div class="container" style="max-width: 600px; margin: 0 auto;">
+
+            <div class="progress" v-if="showForm">
+                <div class="progress-bar" role="progressbar"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                     :style="{width: progressWidth + '%'}">
+                </div>
+            </div>
+
+            <div class="form-group" v-if="showForm">
+                <form class="form" action="">
+                    <div v-for="(item, i) in allData">
+                        <label for="first-name">
+                            <i class="fas" 
+                                    :class="item.validIcon ? 'fa-check-circle' : 'fa-exclamation-circle'"
+                                    v-if="item.showIcon">
+                            </i>
+                        </label>                 
+                        <input id="first-name" class="input form-control" type="text" 
+                               v-model="item.value" 
+                               @keyup="keyValidation(i)"
+                               @blur="fillingStatusbar(i)" 
+                               :placeholder="item.name">
+                    </div>
+            
+                    <button class="btn" @click="addGuest">Add Guest</button>
+            
+                    <input class="input form-control" style="margin-top: 20px;" type="text" v-if="showGuest"
+                        v-for="(guest, i) in guests" v-model="guests[i]" :placeholder="'Guest ' + (i+1)">
+            
+                    <button class="btn" @click="submit" v-if="showGuest">Submit</button>
+                </form>
+            </div>
+            
+            <table class="table table-bordered" v-if="showTable">
+                <tbody>
+                    <tr>
+                        <td>{{allData[2].name}}</td>
+                        <td>{{allData[2].value}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{fullName}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{allData[3].name}}</td>
+                        <td>{{allData[3].value}}</td>
+                    </tr>
+                    <tr>
+                        <td>Guests</td>
+                        <td>
+                            <p v-for="(guest, i) in guests" style="margin-bottom: 10px; padding: 0 10px">
+                                {{i+1 + '. '}} {{guests[i]}}
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let sample = new Vue({
+            el: '.wrapper',
+            data: {
+                allData: [
+                    {
+                        id: "first-name",
+                        name: 'First Name',
+                        value: "",
+                        validPattern: /^[a-zA-Z ]{2,30}$/,
+                        showIcon: false,
+                        validIcon: false
+                    },
+                    {
+                        id: "last-name",
+                        name: 'Last Name',
+                        value: "",
+                        validPattern: /^[a-zA-Z ]{2,30}$/,
+                        showIcon: false,
+                        validIcon: false
+                    },
+                    {
+                        id: "email",
+                        name: 'Email',
+                        value: "",
+                        validPattern: /.+/,
+                        showIcon: false,
+                        validIcon: false
+                    },
+                    {
+                        id: "phone",
+                        name: 'Phone',
+                        value: "",
+                        validPattern: /^[0-9]{7,14}$/,
+                        showIcon: false,
+                        validIcon: false
+                    }
+                ],
+                progressWidth: 0,
+                showGuest: false,
+                showTable: false,
+                showForm: true,
+                guests: []
+            },
+            methods: {
+                addGuest(e) {
+                    e.preventDefault();
+                    this.showGuest = true;
+                    
+                    let name = "";
+                    this.guests.push(name);
+                    console.log(this.guests);
+                },
+                submit(e) {
+                    e.preventDefault();
+                    this.showForm = false;
+                    this.showTable = true;
+                },
+                keyValidation(num) {
+
+                    let itemObj = this.allData[num];
+
+                    itemObj.showIcon = true;
+
+                    if (itemObj.value.lenght != "" && itemObj.validPattern.test(itemObj.value)) {
+                        itemObj.validIcon = true;
+                    } else {
+                        itemObj.validIcon = false;
+                    }
+                },
+                fillingStatusbar(num) {
+                    let progressWidth = 0;
+                    this.allData.forEach(function(item) {
+                        if (item.validIcon == true) {
+                            if (progressWidth < 100) {
+                                progressWidth += 25;
+                            }
+                        } 
+                    });
+                    this.progressWidth = progressWidth;
+                }
+            },
+            computed: {
+                fullName() {
+                    return this.allData[0].value + " " + this.allData[1].value;
+                }
+            }
+        });
+    </script>
+
+    <style>
+        .input {
+            margin-bottom: 15px;
+        }
+        .fa-check-circle {
+            color: green;
+        }
+        .fa-exclamation-circle {
+            color: red;
+        }
+    </style>
+</body>
+</html>
