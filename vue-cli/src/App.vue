@@ -1,11 +1,16 @@
+
+
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <myComponent msg="Hello"/>
+    <myComponent :msg='msg'/>
+    <div>{{info}}</div>
+    <button @click="greet"></button>
   </div>
 </template>
 
 <script>
+/* global require */
 import myComponent from './components/myComponent.vue';
 
 export default {
@@ -13,9 +18,17 @@ export default {
   components: {
     myComponent
   },
-  data: {
-    msg: "HELLO"
+  data() {
+    return {
+      msg: "Hello World",
+      info: {}
+    }
+  },
+  mounted() {
+    const axios = require('axios');
+    axios.get('https://api.coindesk.com/v1/bpi/currentprice.json').then(response => (this.info = response));
   }
+  
 }
 </script>
 
