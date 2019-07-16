@@ -24,6 +24,11 @@ export default {
       info: {}
     }
   },
+  methods: {
+    greet() {
+      console.log("dsf");
+    }
+  },
   mounted() {
     const axios = require('axios');
     axios.get('https://api.coindesk.com/v1/bpi/currentprice.json').then(response => (this.info = response));
