@@ -2,10 +2,13 @@
 
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <myComponent :msg='msg'/>
-    <div>{{info}}</div>
-    <button @click="greet"></button>
+    <div>{{info[0]}}</div>
+    <p v-for="(item) in info" :key="item.id">
+      {{item.title}}, {{key}}
+    </p>
+    <button @click="greet">watch comsole</button>
   </div>
 </template>
 
@@ -21,17 +24,18 @@ export default {
   data() {
     return {
       msg: "Hello World",
-      info: {}
+      info: []
     }
   },
   methods: {
     greet() {
-      console.log("dsf");
+      
     }
   },
   mounted() {
     const axios = require('axios');
-    axios.get('https://api.coindesk.com/v1/bpi/currentprice.json').then(response => (this.info = response));
+    axios.get('http://jsonplaceholder.typicode.com/posts')
+         .then(response => (this.info = response.data));
   }
   
 }
