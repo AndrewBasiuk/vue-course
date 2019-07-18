@@ -4,7 +4,7 @@
   <div id="app">
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     
-    <weatherApp 
+    <WeatherApp 
     
     />
     
@@ -14,20 +14,13 @@
 <script>
 
 
-import weatherApp from './components/weatherApp.vue';
+import WeatherApp from './components/weather-app/WeatherApp.vue';
+
 
 export default {
   name: 'app',
   components: {
-    weatherApp
-  },
-  data() {
-    return {
-      
-    }
-  },
-  methods: {
-    
+    WeatherApp
   }
 }
 </script>
