@@ -2,7 +2,7 @@
     <ul class="day-list">
         <li v-for="(day, index) in dataArr" :key="index">
             <div>{{ dates[index]["day"] }}</div>
-            <div>{{ temperatures[index]["tempMin"] }}</div>
+            <div>{{ temperatures[index]["temp"] }}</div>
         </li>
     </ul>
 </template>
@@ -29,9 +29,9 @@ export default {
                 
                 arr.push(
                     {
-                        day: fullDateArr[2],
-                        month: fullDateArr[1],
-                        year: fullDateArr[0]    
+                        "day": fullDateArr[2],
+                        "month": fullDateArr[1],
+                        "year": fullDateArr[0]    
                     }
                 );
             });
@@ -42,8 +42,6 @@ export default {
             let arr = [];
 
             this.dataArr.forEach(element => {
-
-                this.dataArr.forEach(element => {
                     arr.push(
                         {
                             temp: element.main.temp,
@@ -52,12 +50,11 @@ export default {
                         }
                     );
                 });
-            });
 
             return arr;
         }
     },
-    mounted() {
+    created() {
         this.dates = this.getDate;
         this.temperatures  = this.getTemp;
     }
