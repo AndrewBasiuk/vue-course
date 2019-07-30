@@ -3,8 +3,10 @@
         <input type="text" 
                placeholder="city"
                v-model="city"
-               @submit="submit"
+               @keydown.enter="submit"
         >
+
+        <!-- <p>{{sortDays}}</p> -->
         
         <DayList v-if="showList"
                  :dataArr="sortDays"
@@ -29,7 +31,7 @@ export default {
     },
     data() {
         return {
-            city: "London",
+            city: "Lviv",
             showList: false,
             info: {},
             sortDays: [],
@@ -37,11 +39,8 @@ export default {
         }
     },
     methods: {
-        // buttonClick() {
-        //     // this.sortDays = this.sortObj;
-        //     console.log(this.sortDays);            
-        // },
         submit() {
+            alert("sdvs");
             this.axios.get('http://api.openweathermap.org/data/2.5/forecast?q=' + this.city + '&appid=fc3da5f655d9b4c55ce7786120594255&units=metric')
                 .then(response => (this.info = response.data))
                 .then(() => {
