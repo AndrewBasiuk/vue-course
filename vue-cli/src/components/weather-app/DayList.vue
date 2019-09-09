@@ -11,7 +11,8 @@
 export default {
     name: "DayList",
     props: {
-        dataArr: Array
+        dataArr: Array,
+        dataTest: ""
     },
     data() {
         return {

@@ -5,20 +5,18 @@
                v-model="city"
                @keydown.enter="submit"
         >
-
-        <!-- <p>{{sortDays}}</p> -->
         
         <DayList v-if="showList"
                  :dataArr="sortDays"
         />
-        <!-- <div >{{info}}</div> -->
-        <!-- <button @click="buttonClick">Click</button> -->
+
             
     </div>
 </template>
 
 <script>
 import DayList from "./DayList.vue";
+import { log } from 'util';
 
 /* global require */
 export default {
@@ -39,37 +37,41 @@ export default {
         }
     },
     methods: {
-        submit() {
-            alert("sdvs");
-            this.axios.get('http://api.openweathermap.org/data/2.5/forecast?q=' + this.city + '&appid=fc3da5f655d9b4c55ce7786120594255&units=metric')
+        submit() {            
+            this.showList = false; 
+
+            let apiLink = 'http://api.openweathermap.org/data/2.5/forecast?q=' + this.city + '&appid=fc3da5f655d9b4c55ce7786120594255&units=metric';
+            this.axios.get(apiLink)
                 .then(response => (this.info = response.data))
                 .then(() => {
                     this.showList = true; 
                     this.sortDays = this.sortObj;
-                });
+                });                  
         }
     },
     computed: {
         sortObj() {
             let allList = this.info.list,
                 time = "15:00:00",
-                days = []; 
-            
+                days = [];             
+
             allList.forEach(function(item) {
                 if (item.dt_txt.indexOf(time) != -1) {
                     days.push(item);
                 }
-            });
+            });            
             
             return days;
         }
     },
     mounted() {
-        this.axios.get('http://api.openweathermap.org/data/2.5/forecast?q=London&appid=fc3da5f655d9b4c55ce7786120594255&units=metric')
+        let apiLink = "http://api.openweathermap.org/data/2.5/forecast?q=" + this.city + "&appid=fc3da5f655d9b4c55ce7786120594255&units=metric";
+        this.axios.get(apiLink)
             .then(response => (this.info = response.data))
             .then(() => {
                 this.showList = true; 
                 this.sortDays = this.sortObj;
+                this.a = this.sortDays[4].main.temp;
             });
     }
 }
