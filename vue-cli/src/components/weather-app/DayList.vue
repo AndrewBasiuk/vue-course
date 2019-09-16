@@ -1,8 +1,9 @@
 <template>
     <ul class="day-list">
         <li class="day-list__item" v-for="(day, index) in dataArr" :key="index">
-            <div class="day-list__day">{{ dates[index]["day"] }} {{ dates[index]["month"] }}</div>
+            <img :src="'http://openweathermap.org/img/wn/' + weatherIcon[index] + '.png'" alt="">
             <div class="day-list__temp">{{ temperatures[index]["temp"] }}</div>
+            <div class="day-list__day">{{ dates[index]["day"] }} {{ dates[index]["month"] }}</div>
         </li>
     </ul>
 </template>
@@ -17,6 +18,7 @@ export default {
         return {
             dates: [],
             temperatures: {},
+            weatherIcon: [],
             months: [
                 {
                     id: "01",
@@ -117,11 +119,21 @@ export default {
                 });
 
             return arr;
+        },
+        getWeatherIcon() {
+            let arr = [];
+
+            this.dataArr.forEach(element => {
+                    arr.push(element.weather[0].icon);
+                });
+
+            return arr;
         }
     },
     created() {
         this.dates = this.getDate;
         this.temperatures  = this.getTemp;
+        this.weatherIcon  = this.getWeatherIcon;
     }
 }
 </script>
