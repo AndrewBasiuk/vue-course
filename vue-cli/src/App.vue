@@ -1,12 +1,8 @@
 
 
 <template>
-  <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    
-    <WeatherApp 
-    
-    />
+  <div id="app">    
+    <WeatherApp/>
     
   </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
     <ul class="day-list">
         <li class="day-list__item" v-for="(day, index) in dataArr" :key="index">
-            <div class="day-list__day">{{ dates[index]["day"] }} {{ dates[index]["month"] }}</div>
+            <div class="day-list__day">{{ dates[index]["day"] }} <br> {{ dates[index]["month"] }}</div>
             <img :src="'http://openweathermap.org/img/wn/' + weatherIcon[index] + '.png'" alt="icon">
-            <div class="day-list__temp">{{ temperatures[index]["temp"] }}</div>
+            <div class="day-list__temp">{{ temperatures[index]["temp"] }} ºC</div>
         </li>
     </ul>
 </template>
@@ -140,15 +140,17 @@ export default {
 
 <style scooped>
     .day-list {
-        width: 700px;
+        width: 900px;
         margin: 30px auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        color: #fff;
+        color: #000;
     }
     .day-list__item {
         list-style: none;
+        padding: 30px 20px;
+        background-color: rgba(255, 255, 255, 0.4);
     }
     .day-list__day {
         margin-bottom: 5px;
