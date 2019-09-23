@@ -41,7 +41,7 @@ export default {
     },
     data() {
         return {
-            city: "Lviv",
+            city: "",
             activeBackground: "background_2",
             showList: false,
             info: {},
@@ -251,9 +251,15 @@ export default {
         background-color: #fff;
         color: #000;
     }
-    .input:-webkit-input-placeholder {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
-    .input:-moz-placeholder           {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
-    .input:-ms-input-placeholder      {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
+    .input::-webkit-input-placeholder {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
+    .input::-moz-placeholder           {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
+    .input::-ms-input-placeholder      {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
+    
+    .input:focus {
+        border-color: #00ff44;
+        background-color: #fff;
+        color: #000;
+    }
     
 </style>
 
