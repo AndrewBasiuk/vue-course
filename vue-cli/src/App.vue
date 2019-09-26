@@ -2,13 +2,16 @@
 
 <template>
   <div id="app">    
-    <WeatherApp v-if="weather"
+    <!-- <WeatherApp v-if="weather"
                 @click="showWork"
     />
 
     <newComponent v-if="newPage" 
                   @click="showWork"
-    />
+    /> -->
+
+    <router-link to='/components/weather-app'>Register</router-link>
+    <router-link to='/components/newPage'>Login</router-link>
     
   </div>
 </template>
@@ -16,16 +19,13 @@
 <script>
 
 
-import WeatherApp from './components/weather-app/WeatherApp.vue';
-import newComponent from './components/newPage/newPage.vue';
+// import WeatherApp from './components/weather-app/WeatherApp.vue';
+// import newComponent from './components/newPage/newPage.vue';
 
 
 export default {
   name: 'app',
-  components: {
-    WeatherApp,
-    newComponent
-  },
+  
   data() {
     return {
       weather: true,
