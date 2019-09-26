@@ -1,3 +1,4 @@
+
 <template>
     <div class="weather-app">
         <div class="bg-image" :class="[activeBackground]"></div>

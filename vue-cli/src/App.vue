@@ -10,8 +10,11 @@
                   @click="showWork"
     /> -->
 
-    <router-link to='/components/weather-app'>Register</router-link>
-    <router-link to='/components/newPage'>Login</router-link>
+    <router-link to='/'>Home</router-link>
+    <router-link to='/weather'>Register</router-link>
+    <router-link to='/page'>Login</router-link>
+    <router-view></router-view>
+
     
   </div>
 </template>
