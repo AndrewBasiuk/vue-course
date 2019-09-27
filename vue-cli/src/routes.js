@@ -1,4 +1,4 @@
-import Home from './Home.vue';
+import Home from './components/Home.vue';
 import WeatherApp from './components/weather-app/WeatherApp.vue';
 import newComponent from './components/newPage/newPage.vue';
 
