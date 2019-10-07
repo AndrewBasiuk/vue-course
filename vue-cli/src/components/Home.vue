@@ -51,9 +51,30 @@ export default {
     .home__link {
         position: absolute;
         left: 50%;
-        bottom: 75px;
+        bottom: 30px;
         transform: translateX(-50%);
-        font-size: 18px;
+        font-size: 20px;
+    }
+
+    @media screen and (max-width: 500px) {
+        .home {
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .home__logo {
+            width: 150px;
+        }
+
+        .home__heading {
+            font-size: 25px;
+        }
+
+        .home__link {
+            display: inline-block;
+            width: 100%;
+            text-align: center;   
+        }
     }
 </style>
 

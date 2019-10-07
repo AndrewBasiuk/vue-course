@@ -1,19 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueMeta from 'vue-meta'
 
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'axios/dist/axios.min.js'
-
 import App from './App.vue'
 
-Vue.use(VueRouter)
-Vue.use(BootstrapVue)
+
+Vue.use(VueMeta)
+
 Vue.config.productionTip = false
 
+Vue.use(VueRouter)
 import routes from './routes';
-
 const router = new VueRouter({routes});
 
 new Vue({
