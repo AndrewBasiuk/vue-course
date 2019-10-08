@@ -2,11 +2,9 @@
 <template>
   <div id="app">    
     <nav class="nav">
-      <div class="burger" @click="menuToogle">
-        select a project
-      </div>
-      <transition name="show-menu">
-        <ul v-if="menu" class="nav__list">
+      <Hamburger
+      />
+      <ul class="nav__list">
           <li class="nav__item">
             <router-link to='/'>Home</router-link>
           </li>
@@ -17,7 +15,6 @@
             <router-link to='/page'>Next app</router-link>
           </li>
         </ul>
-      </transition>
     </nav>
 
     <router-view></router-view>
@@ -26,7 +23,12 @@
 </template>
 
 <script>
+  import Hamburger from "./components/common/Hamburger.vue";
+
   export default {
+    components: {
+        Hamburger
+    },
     metaInfo: {
       title: 'My Vue App',
       meta: [
@@ -38,17 +40,6 @@
       return {
         weather: true,
         menu: true
-      }
-    },
-    methods: {
-      menuToogle() {
-        this.menu = !this.menu;
-        console.log(this.menu);
-      }
-    },
-    mounted() {
-      if (window.innerWidth <= 600) {
-        this.menu = false;
       }
     }
   }
@@ -69,15 +60,6 @@
     background-color: rgba(52,73,94 , 0.7);
     z-index: 100;
     padding: 30px 0;
-  }
-
-  .burger {
-    display: none;
-    font-size: 25px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #fff;
-    text-align: center;
-    text-transform: uppercase;
   }
 
   .nav__list {
@@ -109,22 +91,24 @@
 
   @media screen and (max-width: 600px) {
     .nav {
-      padding: 20px 0;
-    }
-
-    .burger {
-      display: block;
+      padding: 10px 0;
+      background-color: transparent;
     }
 
     .nav__list {
       position: absolute;
-      top: 69px;
-      left: 0;
+      top: 0;
+      width: calc(100% - 90px);
       right: 0;
       flex-direction: column;
       padding: 30px 0;
       background-color: rgba(52,73,94, 1);
       margin-top: 0;
+      transition: all 0.3s;
+      transform: translateX(100%);
+    }
+    .nav__list_mob {
+      transform: translateX(0);
     }
 
     .nav__item {
@@ -134,13 +118,13 @@
       margin-bottom: 0;
     }
 
-    .show-menu-enter-active, .show-menu-leave-active {
+    /* .show-menu-enter-active, .show-menu-leave-active {
         transition: all 0.3s;
     }
     .show-menu-enter, .show-menu-leave-to  {
         opacity: 0;
-        transform: translateX(-100%);
-    }
+        transform: translateX(100%);
+    } */
   }
 
 </style>
