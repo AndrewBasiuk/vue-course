@@ -4,7 +4,7 @@
         <h1 class="home__heading">
             Several projects made using <span>vue.js</span>
         </h1>
-        <a href="#" class="home__link">back to my portfolio page</a>
+        <a href="http://andrewbasiuk.000webhostapp.com/" class="home__link">back to my portfolio page</a>
     </div>
 </template>
 

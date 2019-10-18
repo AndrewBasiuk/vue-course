@@ -1,7 +1,6 @@
 <template>
     <div class="component-wrapper">
-        <input type="text" v-model="city">
-        <p>{{city}}</p>
+       <h1>Work in process</h1>
     </div>
 </template>
 
@@ -34,7 +33,14 @@ export default {
 </script>
 
 <style scoped>
-    
+    h1 {
+        line-height: 100vh;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        color: #000;
+        text-transform: uppercase;
+    }
 </style>
 
 

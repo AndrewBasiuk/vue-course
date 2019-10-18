@@ -55,7 +55,7 @@ export default {
         submit() {            
             this.showList = false; 
 
-            let apiLink = 'http://api.openweathermap.org/data/2.5/forecast?q=' + this.city + '&appid=fc3da5f655d9b4c55ce7786120594255&units=metric';
+            let apiLink = 'https://api.openweathermap.org/data/2.5/forecast?q=' + this.city + '&appid=fc3da5f655d9b4c55ce7786120594255&units=metric';
             this.axios.get(apiLink)
                 .catch((error) => {
                     this.showList = false;
@@ -260,6 +260,20 @@ export default {
         border-color: #00ff44;
         background-color: #fff;
         color: #000;
+    }
+    
+    @media screen and (max-width: 900px) {
+        .app-container {
+            width: 100%;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .weather-wrap {
+            height: auto;
+            min-height: calc(100vh - 300px);
+            padding: 150px 0;
+        }
     }
     
 </style>

@@ -141,10 +141,13 @@ export default {
 <style scooped>
     .day-list {
         width: 900px;
+        padding: 0 10px;
+        box-sizing: border-box;
         margin: 30px auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
         color: #000;
     }
     .day-list__item {
@@ -155,5 +158,42 @@ export default {
     .day-list__day {
         margin-bottom: 5px;
         font-weight: bold;
+    }
+
+    @media screen and (max-width: 900px) {
+        .day-list {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+        .day-list {
+            width: 100%;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        .day-list__item {
+            box-sizing: border-box;
+            width: 31%;
+            margin-right: 3.5%;
+            margin-bottom: 20px;
+        }
+        .day-list__item:nth-child(3n), .day-list__item:last-child {
+            margin-right: 0;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .day-list__item {
+            width: 47%;
+            margin-right: 6%;
+        }
+        .day-list__item:nth-child(3n) {
+            margin-right: 6%;
+        }
+        .day-list__item:nth-child(2n), .day-list__item:last-child {
+            margin-right: 0;
+        }
     }
 </style>

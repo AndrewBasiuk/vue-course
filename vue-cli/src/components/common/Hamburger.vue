@@ -28,6 +28,9 @@
 /* global require */
 export default {
     name: "Hamburger",
+    props: {
+        
+    },
     data() {
         return {
             menuShow: true,
@@ -53,11 +56,14 @@ export default {
         font-family: Arial, Helvetica, sans-serif;
         color: #fff;
         text-transform: uppercase;
+        position: absolute;
+        top: 0px;
+        left: 0px;
     }
 
     .burger svg {
         position: absolute;
-        top: 20px;
+        top: 10px;
         left: 20px;
         fill: #34495E;
     }
@@ -72,10 +78,7 @@ export default {
         }
 
         /* transition animation */
-        .menu-show-enter-active {
-            transition: all 0.2s;
-        }
-        .menu-show-leave-active {
+        .menu-show-enter-active, .menu-show-leave-active {
             transition: all 0.2s;
         }
         .menu-show-enter, .menu-show-leave-to  {
@@ -83,11 +86,8 @@ export default {
             transform: translateY(-25px);
         }
 
-        .menu-hide-enter-active {
+        .menu-hide-enter-active, .menu-hide-leave-active {
             transition: all 0.2s ;
-        }
-        .menu-hide-leave-active {
-            transition: all 0.2s;
         }
         .menu-hide-enter, .menu-hide-leave-to  {
             opacity: 0;
