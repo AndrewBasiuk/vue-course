@@ -1,0 +1,7 @@
+
+1. Install NODE js
+2. npm install -g @vue/cli
+3. npm install -g @vue/cli-service-global
+4. npm install in project/ folder
+5. npm install in  project/src/ folder
+6. vue serve in project/src/ folder
