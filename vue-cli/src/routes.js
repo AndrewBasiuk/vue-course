@@ -1,11 +1,11 @@
 import Home from './components/Home.vue';
 import WeatherApp from './components/weather-app/WeatherApp.vue';
-import newComponent from './components/newPage/newPage.vue';
+import chat from './components/chat/Chat.vue';
 
 const routes = [
     { path: '/', component: Home },
     { path: '/weather', component: WeatherApp },
-    { path: '/page', component: newComponent },
+    { path: '/live-chat', component: chat }
 ];
 
 export default routes;

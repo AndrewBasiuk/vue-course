@@ -1,6 +1,6 @@
 <template>
     <div class="component-wrapper">
-       <h1>Work in process</h1>
+       
     </div>
 </template>
 
@@ -9,7 +9,7 @@
 
 /* global require */
 export default {
-    name: "newComponent",
+    name: "Chat",
     // components: {
     //     importComponent
     // },
