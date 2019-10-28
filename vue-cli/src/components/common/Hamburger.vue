@@ -63,7 +63,7 @@ export default {
 
     .burger svg {
         position: absolute;
-        top: 10px;
+        top: 15px;
         left: 20px;
         fill: #34495E;
     }
