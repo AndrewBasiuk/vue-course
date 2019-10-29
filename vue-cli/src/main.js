@@ -2,6 +2,16 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueMeta from 'vue-meta'
 
+// import VueFire from 'vuefire'
+// import firebase from 'firebase/app'
+// import 'firebase/firestore'
+// Vue.use(VueFire)
+// firebase.initializeApp({
+//  projectId: 'vue-dat', 
+//  databaseURL: 'https://vue-dat.firebaseio.com'
+// })
+// export const db = firebase.firestore()
+
 import 'axios/dist/axios.min.js'
 import App from './App.vue'
 
