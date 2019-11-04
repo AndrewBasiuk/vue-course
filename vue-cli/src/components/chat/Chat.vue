@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import ChatWindow from "./ChatWindow.vue";
+import Messages from "./Messages.vue";
 
 /* global require */
 export default {
     name: "Chat",
     components: {
-        ChatWindow
+        Messages
     },
     data() {
         return {
