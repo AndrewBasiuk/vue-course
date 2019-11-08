@@ -16,7 +16,7 @@
 
 <script>
 import Messages from "./Messages.vue";
-import firebase from "firebase/app"
+import firebase from "firebase/app";
 
 /* global require */
 export default {
