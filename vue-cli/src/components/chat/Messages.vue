@@ -22,7 +22,7 @@ export default {
     },
     data() {
         return {
-            city: ""
+            axios: require('axios')
         }
     },
     methods: {

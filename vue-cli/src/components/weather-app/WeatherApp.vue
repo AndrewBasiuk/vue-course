@@ -256,12 +256,6 @@ export default {
     .input::-moz-placeholder           {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
     .input::-ms-input-placeholder      {color: #fff; font-size: 22px; text-align: center; font-weight: 400;};
     
-    .input:focus {
-        border-color: #00ff44;
-        background-color: #fff;
-        color: #000;
-    }
-    
     @media screen and (max-width: 900px) {
         .app-container {
             width: 100%;

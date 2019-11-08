@@ -1,7 +1,8 @@
 <template>
     <div class="component-wrapper">
        <div class="login" v-if="login">
-           <input type="text" class="login__input">
+           <input name="email" type="text" class="login__input" placeholder="email" v-model="email">
+           <input name="password" type="text" class="login__input" placeholder="password" v-model="password">  
            <button type="submit" 
                    class="login__button"
                    @click="submit"
@@ -9,12 +10,13 @@
                Login
             </button>
        </div>
-       <ChatWindow v-else/>
+       <Messages v-else/>
     </div>
 </template>
 
 <script>
 import Messages from "./Messages.vue";
+import firebase from "firebase/app"
 
 /* global require */
 export default {
@@ -24,12 +26,24 @@ export default {
     },
     data() {
         return {
+            email: "",
+            password: "",
             login: true
         }
     },
     methods: {
         submit() {
-            this.login = !this.login;
+            // this.login = !this.login;
+            
+            // create new user
+            firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+                function(user) {
+                    console.log(user);
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );        
         }
     },
     computed: {
@@ -64,7 +78,6 @@ export default {
         width: 300px;
         font-size: 16px;
         margin-bottom: 30px;
-        text-align: center;
     }
 
     .login__button {
