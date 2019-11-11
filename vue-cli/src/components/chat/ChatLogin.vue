@@ -1,21 +1,35 @@
 <template>
     <div class="component-wrapper">
-       <form class="login">
-           <p class="login__heading">Login</p>
-           <input name="email" type="text" class="login__input" placeholder="email" v-model="email">
-           <input name="password" type="text" class="login__input" placeholder="password" v-model="password">  
-           <button type="submit" 
-                   class="login__button"
+       <div class="login">
+           <p class="login__heading">Create Account</p>
+           <input name="email" 
+                  type="text" 
+                  class="login__input" 
+                  placeholder="email" 
+                  v-model="email"
+                  @keyup.enter="submit"
+            >
+
+           <input name="password" 
+                  type="text" 
+                  class="login__input" 
+                  placeholder="password" 
+                  v-model="password"
+                  @keyup.enter="submit"
+            >  
+
+           <p v-if="showError" class="login__error">{{errorName}}</p>
+
+           <button class="login__button"
                    @click="submit"
            >
                Login
             </button>
-       </form>
+       </div>
     </div>
 </template>
 
 <script>
-// import Messages from "./Messages.vue";
 import firebase from "firebase/app";
 
 /* global require */
@@ -23,27 +37,54 @@ export default {
     name: "ChatLogin",
     data() {
         return {
-            email: "",
-            password: "",
-            login: true
+            email: null,
+            password: null,
+            showError: false,
+            errorName: ''
         }
     },
     methods: {
-        submit() {            
-            // create new user
+        submit() {
+
+            if (this.validation()) {
+                this.createNewUser();
+            }
+  
+        },
+        validation() {
+            if (!this.email || !this.password) {
+                this.setError("empty email or password field");
+                return false;
+            } else {
+                if (!this.validEmail(this.email)) {
+                    this.setError("invalid email");
+                    return false;
+                }
+
+                return true;
+            }
+        },
+        validEmail(email) {
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        },
+        createNewUser() {
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-                function(user) {
+                (user) => {
                     console.log(user);
                 },
-                function(err) {
-                    console.log(err);
+                (err) => {
+                    this.setError(err.message);
                 }
-            );        
-        }
-    },
-    computed: {
-        validation() {
-            alert("sdcsd");
+            );
+        },
+        setError(err) {
+            this.errorName = err;
+            this.showError = true;
+
+            setTimeout(() => {
+                this.showError = false;
+            }, 2000)
         }
     }
 }
@@ -102,6 +143,12 @@ export default {
     }
     .login__button:hover {
         box-shadow: 0px 2px 3px 2px rgba(0, 8, 245, 0.4);
+    }
+
+    .login__error {
+        color: red;
+        font-size: 16px;
+        margin-bottom: 10px;
     }
 
 </style>

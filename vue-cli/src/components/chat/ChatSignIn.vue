@@ -2,8 +2,23 @@
     <div class="component-wrapper">
        <div class="sign-in sign-in">
            <p class="sign-in__heading">Sign in</p>
-           <input id="email" name="email" type="text" class="sign-in__input" placeholder="Email" v-model="email">
-           <input name="password" type="text" class="sign-in__input" placeholder="Password" v-model="password">  
+
+           <input name="email" 
+                  type="text" 
+                  class="sign-in__input" 
+                  placeholder="Email" 
+                  v-model="email"
+                  @keyup.enter="submit"
+            >
+
+           <input name="password" 
+                  type="text" 
+                  class="sign-in__input" 
+                  placeholder="Password" 
+                  v-model="password"
+                  @keyup.enter="submit"
+            >  
+
            <p class="sign-in__error" v-if="showError">{{errorName}}</p>
 
            <button  class="sign-in__button"
@@ -31,8 +46,7 @@ export default {
             email: null,
             password: null,
             showError: false,
-            errorName: '',
-            errors: ["empty email or password field", "invalid email"]
+            errorName: ''
         }
     },
     methods: {
@@ -45,31 +59,22 @@ export default {
         },
         validation() {
             if (!this.email || !this.password) {
-                this.setError(this.errors[0]);
+                this.setError("empty email or password field");
                 return false;
             } else {
-                if (!this.validEmail(this.email)) {
-                    this.setError(this.errors[1]);
-                    return false;
-                }
-
                 return true;
             }
         },
-        validEmail(email) {
-            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(email);
-        },
         createNewUser() {
-            alert("succes")
-            // firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-            //     function(user) {
-            //         console.log(user);
-            //     },
-            //     function(err) {
-            //         console.log(err);
-            //     }
-            // );
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+                (user) => {
+                    console.log(user);
+                },
+                (err) => {
+                    this.setError(err.message);
+                    console.log(err);
+                }
+            );
         },
         setError(err) {
             this.errorName = err;

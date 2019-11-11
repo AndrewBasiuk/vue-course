@@ -97,7 +97,7 @@
     right: 0;
     background-color: rgba(52,73,94 , 0.7);
     z-index: 100;
-    padding: 30px 0;
+    padding: 10px 0;
     height: 50px;
   }
 
