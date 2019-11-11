@@ -12,7 +12,7 @@
           <router-link to='/weather'>Weather app</router-link>
         </li>
         <li class="nav__item" @click="mobMenuToggle">
-          <router-link to='/live-chat'>Live chat</router-link>
+          <router-link to='/chatSignIn'>Live chat</router-link>
         </li>
       </ul>
       <a class="my-logo" href="http://andrewbasiuk.000webhostapp.com/">

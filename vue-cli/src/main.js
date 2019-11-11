@@ -12,8 +12,6 @@ Vue.use(VueRouter)
 Vue.use(firebaseApp)
 
 
-
-
 Vue.config.productionTip = false
 new Vue({
   router,

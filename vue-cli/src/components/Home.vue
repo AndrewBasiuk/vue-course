@@ -10,12 +10,10 @@
 
 <script>
 
-/* global require */
 export default {
     name: "Home",
     data() {
         return {
-            city: ""
         }
     }
 }

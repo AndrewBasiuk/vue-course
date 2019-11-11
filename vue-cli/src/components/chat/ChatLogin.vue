@@ -1,6 +1,7 @@
 <template>
     <div class="component-wrapper">
-       <div class="login" v-if="login">
+       <form class="login">
+           <p class="login__heading">Login</p>
            <input name="email" type="text" class="login__input" placeholder="email" v-model="email">
            <input name="password" type="text" class="login__input" placeholder="password" v-model="password">  
            <button type="submit" 
@@ -9,21 +10,17 @@
            >
                Login
             </button>
-       </div>
-       <Messages v-else/>
+       </form>
     </div>
 </template>
 
 <script>
-import Messages from "./Messages.vue";
+// import Messages from "./Messages.vue";
 import firebase from "firebase/app";
 
 /* global require */
 export default {
-    name: "Chat",
-    components: {
-        Messages
-    },
+    name: "ChatLogin",
     data() {
         return {
             email: "",
@@ -32,9 +29,7 @@ export default {
         }
     },
     methods: {
-        submit() {
-            // this.login = !this.login;
-            
+        submit() {            
             // create new user
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
                 function(user) {
@@ -47,9 +42,9 @@ export default {
         }
     },
     computed: {
-    
-    },
-    mounted() {
+        validation() {
+            alert("sdcsd");
+        }
     }
 }
 </script>
@@ -69,15 +64,29 @@ export default {
         display: flex;
         align-items: center;
         flex-direction: column;
-        border: 2px solid #000;
+    }
+
+    .login__heading {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 25px;
+        text-transform: uppercase;
     }
 
     .login__input {
-        border: 1px solid #000;
+        border: none;
+        border-bottom: 1px solid gray;
         padding: 10px;
         width: 300px;
         font-size: 16px;
         margin-bottom: 30px;
+        color: gray;
+        transition: all 0.2s;
+        outline: none;
+    }
+    .login__input:focus {
+        border-width: 2px;
+        border-color: #000;
+        color: #000;
     }
 
     .login__button {
