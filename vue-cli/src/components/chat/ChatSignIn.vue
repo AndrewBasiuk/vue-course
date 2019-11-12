@@ -67,12 +67,11 @@ export default {
         },
         createNewUser() {
             firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-                (user) => {
-                    console.log(user);
+                () => {
+                    router.push('chat');
                 },
                 (err) => {
                     this.setError(err.message);
-                    console.log(err);
                 }
             );
         },

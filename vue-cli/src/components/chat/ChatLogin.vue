@@ -2,7 +2,15 @@
     <div class="component-wrapper">
        <div class="login">
            <p class="login__heading">Create Account</p>
-           <input name="email" 
+           <input name="name" 
+                  type="text" 
+                  class="login__input" 
+                  placeholder="youre name" 
+                  v-model="userName"
+                  @keyup.enter="submit"
+            >
+
+            <input name="email" 
                   type="text" 
                   class="login__input" 
                   placeholder="email" 
@@ -31,12 +39,15 @@
 
 <script>
 import firebase from "firebase/app";
+import router from './../../routes';
+
 
 /* global require */
 export default {
     name: "ChatLogin",
     data() {
         return {
+            userName: null,
             email: null,
             password: null,
             showError: false,
@@ -52,7 +63,7 @@ export default {
   
         },
         validation() {
-            if (!this.email || !this.password) {
+            if (!this.email || !this.password || !this.userName) {
                 this.setError("empty email or password field");
                 return false;
             } else {
@@ -70,13 +81,22 @@ export default {
         },
         createNewUser() {
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-                (user) => {
-                    console.log(user);
+                () => {
+                    this.setUserName();
+                    router.push('chat');
                 },
                 (err) => {
                     this.setError(err.message);
                 }
             );
+        },
+        setUserName() {
+            var user = firebase.auth().currentUser;
+            if (user != null) {
+                user.updateProfile({
+                    displayName: this.userName,
+                })
+            }
         },
         setError(err) {
             this.errorName = err;
@@ -152,5 +172,3 @@ export default {
     }
 
 </style>
-
-

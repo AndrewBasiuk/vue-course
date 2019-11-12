@@ -1,8 +1,10 @@
 import VueRouter from 'vue-router'
 import Home from './components/Home.vue';
 import WeatherApp from './components/weather-app/WeatherApp.vue';
-import chatLogin from './components/chat/ChatLogin.vue';
-import chatSignIn from './components/chat/ChatSignIn.vue';
+import ChatLogin from './components/chat/ChatLogin.vue';
+import ChatSignIn from './components/chat/ChatSignIn.vue';
+import ChatWindow from './components/chat/ChatWindow.vue';
+
 
 
 
@@ -17,11 +19,15 @@ const routes = [
     },
     { 
         path: '/chatLogin', 
-        component: chatLogin 
+        component: ChatLogin 
     },
     { 
         path: '/chatSignIn', 
-        component: chatSignIn
+        component: ChatSignIn
+    },
+    { 
+        path: '/chat', 
+        component: ChatWindow
     }
 ];
 
