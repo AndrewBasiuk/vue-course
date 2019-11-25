@@ -33,17 +33,18 @@ export default {
     },
     methods: {
         sendMessage() {
+            // write data ti database
             this.messagesDB.doc().set({
 
-                fullTime: this.date().fullTime,
-                time: this.date().time,
+                fullTime: this.getDate().fullTime,
+                time: this.getDate().time,
                 value: this.message
 
             });
 
             this.message = "";
         },
-        date() {
+        getDate() {
             let date = new Date(),
                 fullTime = Date.now(),
                 time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -52,6 +53,19 @@ export default {
                 time: time,
                 fullTime: fullTime
             };
+        }
+    },
+    computed: {
+        scrollMessageWindowToBottom() {
+            let messageWindow = document.querySelector(".messages-window");
+
+            messageWindow.addEventListener("scroll", () => {
+                // console.log(messageWindow.scrollTop);
+            });
+
+            messageWindow.scrollTop = 50;
+                console.log(messageWindow.scrollTop);
+
         }
     },
     created() {
@@ -81,8 +95,9 @@ export default {
 
             }
         });
-
-
+    },
+    mounted() {
+        this.scrollMessageWindowToBottom;
         // get realtime updates from database
         this.messagesDB.doc().get().then(() => {
 
@@ -101,6 +116,7 @@ export default {
                 }
             });
 
+            this.scrollMessageWindowToBottom;
         });
     }
 }
@@ -119,7 +135,7 @@ export default {
         padding: 20px 30px;
         width: 300px;
         height: 300px;
-        overflow: auto;
+        overflow: scroll;
     }
     .messages-window__item {
         list-style: none;
