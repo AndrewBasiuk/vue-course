@@ -26,7 +26,8 @@ const routes = [
         component: ChatSignIn
     },
     { 
-        path: '/chat', 
+        path: '/chat/:userId',
+        name: 'chat',
         component: ChatWindow
     }
 ];

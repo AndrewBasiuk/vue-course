@@ -83,7 +83,9 @@ export default {
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
                 () => {
                     this.setUserName();
-                    router.push('chat');
+                    // router.push('chat');
+                    router.push({ name: 'chat', params: { userId: '123' }});
+
                 },
                 (err) => {
                     this.setError(err.message);
