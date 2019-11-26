@@ -7,7 +7,7 @@
             </li>
         </ul>
         <div class="input-window">
-            <p>User name: {{userName}}</p>
+            <p>User name: {{userData.name}}</p>
             <input type="text" v-model="message" @keydown.enter="sendMessage">
             <button @click="sendMessage">Click</button>
         </div>
@@ -23,27 +23,61 @@ export default {
     name: "ChatWindow",
     data() {
         return {
-            userName: "",
+            userData: {},
             message: "",
             counter: 0,
-            messagesData: [
-            ],
-            messagesDB: firebase.firestore().collection("messages")
+            messagesData: [],
+            messagesDB: firebase.firestore().collection("messages"),
+            auth: firebase.auth()
         }
     },
     methods: {
         sendMessage() {
-            // write data ti database
+            // write data to database
             this.messagesDB.doc().set({
 
-                fullTime: this.getDate().fullTime,
-                time: this.getDate().time,
+                fullTime: this.getDate.fullTime,
+                userName: this.userData.name,
+                time: this.getDate.time,
                 value: this.message
 
             });
 
+            this.listener();
+
             this.message = "";
         },
+        listener() {
+            this.messagesDB.doc().get().then(() => {
+
+                this.messagesDB.orderBy("fullTime", "desc").onSnapshot((mess) => {
+
+                    let lastMessages = mess.docs[0];
+
+                    if(lastMessages) {
+                        let lastMessagesData = lastMessages.data();
+
+                        this.messagesData.push({
+                            time: lastMessagesData.time,
+                            mess: lastMessagesData.value
+                        });
+                        
+                        console.log(lastMessagesData);
+                    }
+                });
+            });
+        }
+
+    },
+    computed: {
+        // scrollMessageWindowToBottom() {
+        //     let messageWindow = document.querySelector(".messages-window");
+
+        //     messageWindow.scrollTop = 50;
+        //         console.log(messageWindow.scrollTop);
+
+        // }
+
         getDate() {
             let date = new Date(),
                 fullTime = Date.now(),
@@ -53,71 +87,65 @@ export default {
                 time: time,
                 fullTime: fullTime
             };
-        }
-    },
-    computed: {
-        scrollMessageWindowToBottom() {
-            let messageWindow = document.querySelector(".messages-window");
+        },
+        getUserInfo() {
 
-            messageWindow.addEventListener("scroll", () => {
-                // console.log(messageWindow.scrollTop);
+            let obj = {};
+
+            this.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    obj.name = user.displayName;
+                } else {
+                    obj.name = "no_name";
+                }
             });
 
-            messageWindow.scrollTop = 50;
-                console.log(messageWindow.scrollTop);
+            this.userData = obj;
 
+            return obj;
         }
     },
     created() {
-
-        // get the existing data from database
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.userName = user.displayName;
-            } else {
-                this.userName = "no_name";
-            }
-        });
+        this.getUserInfo;
 
         this.messagesDB.orderBy("fullTime").get().then((mess) => {
             let allMessages = mess.docs;
 
             if(allMessages.length != 0) {
 
-                allMessages.forEach((el, i) => {
-                    let itemData = el.data();
+                for(let i = 0; i <= (allMessages.length - 1); i++) {
+                    let itemData = allMessages[i].data();
 
                     this.messagesData.push({
                         time: itemData.time,
                         mess: itemData.value
                     });
-                });
-
+                }
             }
         });
     },
     mounted() {
-        this.scrollMessageWindowToBottom;
+        this.getUserInfo;
+
         // get realtime updates from database
-        this.messagesDB.doc().get().then(() => {
+        // this.messagesDB.doc().get().then(() => {
 
-            this.messagesDB.orderBy("fullTime", "desc").onSnapshot((mess) => {
+        //     this.messagesDB.orderBy("fullTime", "desc").onSnapshot((mess) => {
 
-                let lastMessages = mess.docs[0];
+        //         let lastMessages = mess.docs[0];
 
-                if(lastMessages) {
-                    let lastMessagesData = lastMessages.data();
+        //         if(lastMessages) {
+        //             let lastMessagesData = lastMessages.data();
 
-                    this.messagesData.push({
-                        time: lastMessagesData.time,
-                        mess: lastMessagesData.value
-                    });
+        //             this.messagesData.push({
+        //                 time: lastMessagesData.time,
+        //                 mess: lastMessagesData.value
+        //             });
                     
-                }
-            });
-
-            this.scrollMessageWindowToBottom;
-        });
+        //             console.log(lastMessagesData);
+        //         }
+        //     });
+        // });
     }
 }
 </script>
