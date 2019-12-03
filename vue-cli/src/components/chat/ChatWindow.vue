@@ -26,48 +26,35 @@ export default {
             userData: {},
             message: "",
             counter: 0,
+            resivedData: [],
             messagesData: [],
-            messagesDB: firebase.firestore().collection("messages"),
-            auth: firebase.auth()
+            firestore: firebase.firestore()
         }
     },
     methods: {
         sendMessage() {
             // write data to database
-            this.messagesDB.doc().set({
+            this.firestore.collection("messages").doc().set({
 
-                fullTime: this.getDate.fullTime,
+                fullTime: this.getTime().fullTime,
                 userName: this.userData.name,
-                time: this.getDate.time,
+                time: this.getTime().time,
                 value: this.message
 
             });
 
-            this.listener();
-
             this.message = "";
         },
-        listener() {
-            this.messagesDB.doc().get().then(() => {
+        getTime() {
+            let date = new Date(),
+                fullTime = Date.now(),
+                time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-                this.messagesDB.orderBy("fullTime", "desc").onSnapshot((mess) => {
-
-                    let lastMessages = mess.docs[0];
-
-                    if(lastMessages) {
-                        let lastMessagesData = lastMessages.data();
-
-                        this.messagesData.push({
-                            time: lastMessagesData.time,
-                            mess: lastMessagesData.value
-                        });
-                        
-                        console.log(lastMessagesData);
-                    }
-                });
-            });
+            return {
+                time: time,
+                fullTime: fullTime
+            };
         }
-
     },
     computed: {
         // scrollMessageWindowToBottom() {
@@ -77,22 +64,55 @@ export default {
         //         console.log(messageWindow.scrollTop);
 
         // }
+        listener() {
+            this.firestore.collection("messages").doc().get().then(() => {
 
-        getDate() {
-            let date = new Date(),
-                fullTime = Date.now(),
-                time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                this.firestore.collection("messages").onSnapshot((mess) => {
 
-            return {
-                time: time,
-                fullTime: fullTime
-            };
+                    if (mess.docs.lenght != 0) {
+
+                        this.resivedData = []; //clear arr
+
+                        // get only data
+                        mess.docs.forEach(el => {
+                            this.resivedData.push(el.data());
+                        });
+
+                        let sortingData = this.mesaggesTimeSorting,
+                            lastMessageData = sortingData[sortingData.length-1];
+                   
+                        this.messagesData.push({
+                            time: lastMessageData.time,
+                            mess: lastMessageData.value
+                        });
+                    }
+
+                });
+            });
+        },
+        mesaggesTimeSorting() {
+            let data = this.resivedData,
+                arrLength = data.length-1;
+
+            for(let i = 0; i <= arrLength; i++) {
+
+                for(let j = 0; j < arrLength-i; j++) {  
+                    if(data[j].fullTime > data[j+1].fullTime) {
+                        let next = data[j+1];
+                        data[j+1] = data[j];
+                        data[j] = next;
+                    }
+                }
+
+            }
+
+            return data;
         },
         getUserInfo() {
 
             let obj = {};
 
-            this.auth.onAuthStateChanged((user) => {
+            firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     obj.name = user.displayName;
                 } else {
@@ -108,44 +128,30 @@ export default {
     created() {
         this.getUserInfo;
 
-        this.messagesDB.orderBy("fullTime").get().then((mess) => {
-            let allMessages = mess.docs;
+        this.firestore.collection("messages").orderBy("fullTime").get().then((mess) => {
+             if (mess.docs.lenght != 0) {
 
-            if(allMessages.length != 0) {
+                this.resivedData = []; //clear arr
 
-                for(let i = 0; i <= (allMessages.length - 1); i++) {
-                    let itemData = allMessages[i].data();
+                // get only data
+                mess.docs.forEach(el => {
+                    this.resivedData.push(el.data());
+                });
 
+                let sortingData = this.mesaggesTimeSorting;
+                
+                for (let i = 0; i <= sortingData.lenght-2; i++) {
                     this.messagesData.push({
-                        time: itemData.time,
-                        mess: itemData.value
+                        time: sortingData[i].time,
+                        mess: sortingData[i].value
                     });
                 }
             }
         });
     },
     mounted() {
-        this.getUserInfo;
-
-        // get realtime updates from database
-        // this.messagesDB.doc().get().then(() => {
-
-        //     this.messagesDB.orderBy("fullTime", "desc").onSnapshot((mess) => {
-
-        //         let lastMessages = mess.docs[0];
-
-        //         if(lastMessages) {
-        //             let lastMessagesData = lastMessages.data();
-
-        //             this.messagesData.push({
-        //                 time: lastMessagesData.time,
-        //                 mess: lastMessagesData.value
-        //             });
-                    
-        //             console.log(lastMessagesData);
-        //         }
-        //     });
-        // });
+        // this.getUserInfo;
+        this.listener;
     }
 }
 </script>
